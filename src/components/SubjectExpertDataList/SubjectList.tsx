@@ -7,13 +7,52 @@ import {
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { getSuBjectwiseQuiz } from "../../api/apiAgent";
-
+import { getSubjectwiseQuiz,getSubjectwiseQuizAnswers } from "../../api/apiAgent";
+import AllQuestionsAnswers from "../DispalyQuizQuestionsAnswers/AllQuestionsAnswers";
+import ReactModal from "react-modal";
+import SubjectInfo from "../../Interface/SubjectInfo";
 const SubjectList = () => {
   const [subjectList, setSubjectList] = useState<any>([]);
+  const [OpenTestModal, setOpenTestModal] = useState(false);
+  const [modalContent, setModalContent] = useState("");
+  const [openDialog, setOpenDialog] = useState<boolean>(false);
+  //const [quizSubjectInfo, setquizSubjectInfo] = useState<SubjectInfo>({setNumber: 0, subjectName: ''});
+  const [quizSubjectInfo,setquizSubjectInfo] = useState({setnumber: 0, subjectname: ''});
+  const handleClose = () => {
+    setOpenDialog(false);
+  };
 
+  const startTestViewButtonHandler = (e:any) => { 
+    //setquizSubjectInfo((quizSubjectInfo) => (quizSubjectInfo.subjectname = "Mark"));
+    //setquizSubjectInfo((quizSubjectInfo) => ({...quizSubjectInfo,setnumber : 1}));
+    setquizSubjectInfo((quizSubjectInfo) => Object.assign({}, quizSubjectInfo, { setnumber:e.setNumber }));
+    //setquizSubjectInfo(quizSubjectInfo =>({...quizSubjectInfo,[setnumber]:test1,subjectname: test2}));
+    //const setnumber = e.target.setNumber;
+    //const value = e.target.value;
+    //setquizSubjectInfo({ ...quizSubjectInfo, setnumber: e.target.setNumber })
+    //setquizSubjectInfo({ ...quizSubjectInfo, subjectname:e.target.SubjectName })
+    var data=quizSubjectInfo;
+    setModalContent("listView");
+    setOpenTestModal(true);
+    // const subjectwiseAnswersDetails = async () => {
+    //   getSubjectwiseQuizAnswers(SetNumber,SubjectName)
+    //     .then((response) => {
+    //       setSubjectAnswerList(response.data);
+    //       const data=subjectAnswersList;
+    //       console.log("Subject details"+subjectAnswersList);
+    //     })
+    //     .catch((error: any) => console.log("error in subjwise answersapi"));
+    // };
+  };
+  const endTestButtonHandler = () => {
+    setOpenTestModal(false);
+  };
+
+  const handleCloseFromModal = () => {
+    setOpenTestModal(false);
+  };
   const subjectwiseQuizDetails = async () => {
-    getSuBjectwiseQuiz("")
+    getSubjectwiseQuiz("")
       .then((response) => {
         setSubjectList(response.data);
       })
@@ -49,7 +88,7 @@ const SubjectList = () => {
                       style={{ padding: 20 }}
                     >
                       {elem.subjectName}
-                      <Button variant="contained">View</Button>
+                      <Button variant="contained"  onClick={() => startTestViewButtonHandler(elem)}>View</Button>
                     </Typography>
                     <CardContent>
                       <Typography>
@@ -77,6 +116,22 @@ const SubjectList = () => {
               ))}
           </Grid>
         </Box>
+        <div className="quiz-start-btn-wrap">
+        <ReactModal
+          isOpen={OpenTestModal}
+          contentLabel="Minimal Modal Example"
+          ariaHideApp={false}
+        >
+          {modalContent && modalContent === "listView" ? (
+            <AllQuestionsAnswers
+              openDialog={openDialog}
+              handleClose={handleClose}
+              setOpenDialog={setOpenDialog}
+              quizSubjectInfo={quizSubjectInfo}
+            />
+          ) : null}
+        </ReactModal>
+        </div>
       </Box>
     </>
   );

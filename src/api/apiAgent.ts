@@ -64,8 +64,14 @@ export const getQuizQuestions = (set: number, subject: string) => {
   );
 };
 
-export const getSuBjectwiseQuiz = (subject: string) => {
+export const getSubjectwiseQuiz = (subject: string) => {
   return axiosClient.get("/quiz/SubjectExpert/allquestions", {
     params: { subject: subject },
   });
+};
+
+export const getSubjectwiseQuizAnswers = (set: number, subject: string) => {
+  return axiosClient.get(
+    `quiz/SubjectExpert/questions?set=${set}&subject=${subject}`
+  );
 };
