@@ -29,7 +29,7 @@ const AllQuestionsAnswers = (props: any) => {
         console.log(resp.length);
       })
       .catch((error) => console.log("error is get question", error));
-  }, []);
+  }, [quizSubjectInfo]);
 
   const handleProgressStatus = () => {
     console.log("handePrgressstatus called");
