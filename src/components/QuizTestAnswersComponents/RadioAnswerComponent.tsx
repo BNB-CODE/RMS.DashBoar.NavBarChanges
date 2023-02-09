@@ -1,64 +1,26 @@
 import { RadioGroup, FormControlLabel, Radio } from "@mui/material";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import { padding } from "@mui/system";
 import { useCallback, useEffect, useState } from "react";
 
 const RadioAnswerComponent = (props: any) => {
   const { question, handleAnswerChange, selectedAnswers } = props;
-  console.log("value of selected answer in radio comp is", selectedAnswers);
-
-  // question={{
-  //   questionNumber: index + 1,
-  //   questionData: question,
-  //   console.log("value of props in radio is", props);
-
-  const [value, setValue] = useState({});
-  console.log("value in radio comp is", value);
-
-  const getSelectedValue = useCallback(
-    (questionId: any) => {
-      console.log("value of quesiton id is", questionId);
-      const result = selectedAnswers.filter((cur: any) => {
-        return cur.questionId === questionId;
-      });
-      if (result[0]) {
-        setValue(result[0].choosenAnswer);
-      }
-
-      console.log("vlaue of result is", result);
-    },
-    [selectedAnswers]
-  );
-  // const getSelectedValue = (questionId: any) => {
-  //   console.log("value of quesiton id is", questionId);
-  //   const result = selectedAnswers.filter((cur: any) => {
-  //     return cur.questionId === questionId;
-  //   });
-  //   if (result[0]) {
-  //     setValue(result[0].choosenAnswer);
-  //     console.log("reuslt is", result[0].choosenAnswer);
-  //   }
-  // };
-
-  useEffect(() => {
-    getSelectedValue(question.questionData.questionId);
-  }, [question.questionData.questionId, getSelectedValue]);
+  console.log("Raio Button answer in radio comp is", question);
+  //console.log("Raio Button  answer in radio-1 comp is", question.questionData.questionAnswers[0].toString());
+  //console.log("value of selected answer in radio-2 comp is", question.questionData.QuestionAnswers);
   return (
     <>
       <Box>
         <Typography>{`${question.questionNumber}. ${question.questionData.question}`}</Typography>
         <RadioGroup
-          value={value}
-          onChange={(event) => {
-            handleAnswerChange(event, question.questionData.questionId);
-            //   setValue((event.target as HTMLInputElement).value);
-            getSelectedValue(question.questionData.questionId);
-          }}
+        defaultValue={`${question.questionData.questionAnswers[0]}`}
         >
           {question.questionData.questionOptions.map(
             (option: any, index: any) => {
               return (
                 <FormControlLabel
+                  disabled
                   value={option}
                   control={<Radio />}
                   label={option}
@@ -68,6 +30,12 @@ const RadioAnswerComponent = (props: any) => {
             }
           )}
         </RadioGroup>
+      </Box>
+      <Box>
+      <Typography  justifyContent="space-between" alignItems="center"style={{ padding: 15 }}>
+          <strong>{'Answers:'}&ensp;</strong>{`${question.questionData.questionAnswersIds.toString()}`}<br/>
+          {`${question.questionData.questionAnswers.toString()}`}
+      </Typography>
       </Box>
     </>
   );

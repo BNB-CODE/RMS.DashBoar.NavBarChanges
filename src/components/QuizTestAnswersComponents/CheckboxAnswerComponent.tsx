@@ -9,34 +9,6 @@ import {
   
   const CheckboxAnswersComponent = (props: any) => {
     const { question, handleCheckboxAnswerChange, selectedAnswers } = props;
-  
-    const [value, setValue] = useState<any[]>([]);
-  
-    const getSelectedValue = useCallback(
-      (questionId: any) => {
-        console.log("value of quesiton id is", questionId);
-        const result = selectedAnswers.filter((cur: any) => {
-          return cur.questionId === questionId;
-        });
-        if (result[0]) {
-          //setValue(result[0].choosenAnswer);
-          console.log("result in check box is", result);
-          console.log(result[0].choosenAnswer);
-          // setValue(value.push(option));
-          setValue(result[0].choosenAnswer);
-        }
-  
-        console.log("vlaue of result is", result);
-        // console.log("value of vlue.choosenAnswer is", value.choosenAnswer);
-      },
-      [selectedAnswers]
-    );
-  
-    useEffect(() => {
-      getSelectedValue(question.questionData.questionId);
-    }, [question.questionData.questionId, getSelectedValue]);
-  
-    console.log("value of usestae value is", value);
     return (
       <>
         <Box>
@@ -48,19 +20,11 @@ import {
                 return (
                   <FormControlLabel
                     control={
-                      <Checkbox
+                      <Checkbox disabled
                         // checked={value.includes(option) ? true : false}
                         // checked={value.indexOf(option) !== -1}
-                        checked={selectedAnswers}
-                        //  value={option}
-                        onChange={(event) => {
-                          getSelectedValue(question.questionData.questionId);
-                          handleCheckboxAnswerChange(
-                            event,
-                            question.questionData.questionId
-                          );
-                          // getSelectedValue();
-                        }}
+                        //checked={question.questionData.QuestionAnswers}
+                        checked={question.questionData.questionAnswers.includes(option)}
                         name={option}
                       />
                     }
@@ -72,6 +36,12 @@ import {
             )}
           </FormGroup>
         </Box>
+        <Box>
+      <Typography  justifyContent="space-between" alignItems="center"style={{ padding: 15 }}>
+          <strong>{'Answers:'}&ensp;</strong>{`${question.questionData.questionAnswersIds.toString()}`}<br/>
+          {`${question.questionData.questionAnswers.toString()}`}
+      </Typography>
+      </Box>
       </>
     );
   };

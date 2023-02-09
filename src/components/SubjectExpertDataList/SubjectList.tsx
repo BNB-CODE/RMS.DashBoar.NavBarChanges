@@ -18,42 +18,29 @@ const SubjectList = () => {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [subjectAnswersList, setSubjectAnswerList] = useState<any>([]);
   //const [quizSubjectInfo, setquizSubjectInfo] = useState<SubjectInfo>({setNumber: 0, subjectName: ''});
-  const [quizSubjectInfo,setquizSubjectInfo] = useState<SubjectInfo>({setNumber:0,subjectName:""});
+  //const [quizSubjectInfo,setquizSubjectInfo] = useState<SubjectInfo>({setNumber:0,subjectName:""});
   const handleClose = () => {
     setOpenDialog(false);
   };
 
-  const startTestViewButtonHandler = (e:any) => { 
-    //setquizSubjectInfo((quizSubjectInfo) => (quizSubjectInfo.subjectname = "Mark"));
-    //setquizSubjectInfo((quizSubjectInfo) => ({...quizSubjectInfo,setnumber : 1}));
-    //setquizSubjectInfo((quizSubjectInfo) => Object.assign({}, quizSubjectInfo, { setnumber:e.setNumber }));
-    setModalContent("listView");
-    setOpenTestModal(true);
-    quizSubjectInfo.subjectName=e.subjectName;
-    quizSubjectInfo.setNumber=e.setNumber;
-    quizSubjectInfo.subjectName=e.subjectName;
-    var set=e.setNumber;
-    var subject=e.subjectName;
-    //setquizSubjectInfo(quizSubjectInfo =>({...quizSubjectInfo,[setnumber]:test1,subjectname: test2}));
-    //const setnumber = e.target.setNumber;
-    //const value = e.target.value;
-    //setquizSubjectInfo({ ...quizSubjectInfo, setnumber: e.target.setNumber })
-    //setquizSubjectInfo({ ...quizSubjectInfo, subjectname:e.target.SubjectName })
-    setquizSubjectInfo({setNumber:e.setNumber,subjectName:e.subjectName})
-       getSubjectwiseQuizAnswers(set,subject)
+  const StartTestViewButtonHandler = (e:any) => { 
+    
+       getSubjectwiseQuizAnswers(e.setNumber,e.subjectName)
          .then((response) => {
            setSubjectAnswerList(response.data);
-          //const data=subjectAnswersList;
-           console.log("Subject details"+subjectAnswersList);
         })
         .catch((error: any) => console.log("error in subjwise answersapi"));
-     var data1=subjectAnswersList;
-    // setModalContent("listView");
-    // setOpenTestModal(true);
- 
+        setModalContent("listView");
+    setOpenTestModal(true);
   };
-  console.log("Subject info details",quizSubjectInfo);
-  var data=quizSubjectInfo;
+  // const openmodel = () => {
+  //   console.log("Big subject details",subjectAnswersList);
+  //   var data=subjectAnswersList;
+  //  setModalContent("listView");
+  //   setOpenTestModal(true);
+  // };
+  //console.log("Subject info details",subjectAnswersList);
+  //var data=subjectAnswersList;
   const endTestButtonHandler = () => {
     setOpenTestModal(false);
   };
@@ -98,7 +85,7 @@ const SubjectList = () => {
                       style={{ padding: 20 }}
                     >
                       {elem.subjectName}
-                      <Button variant="contained"  onClick={() => startTestViewButtonHandler(elem)}>View</Button>
+                      <Button variant="contained"  onClick={() => StartTestViewButtonHandler(elem)}>View</Button>
                     </Typography>
                     <CardContent>
                       <Typography>
@@ -137,7 +124,7 @@ const SubjectList = () => {
               openDialog={openDialog}
               handleClose={handleClose}
               setOpenDialog={setOpenDialog}
-              quizSubjectInfo={quizSubjectInfo}
+              quizSubjectInfo={subjectAnswersList}
             />
           ) : null}
         </ReactModal>
