@@ -70,8 +70,10 @@ export const getSubjectwiseQuiz = (subject: string) => {
   });
 };
 
-export const getSubjectwiseQuizAnswers = (set: number, subject: string) => {
+export const getSubjectwiseQuizAnswers = (set: any, subject: any) => {
+  console.log("vlues are",set,subject);
   return axiosClient.get(
+    // `quiz/SubjectExpert/questions?set=${set}&subject=${subject}`
     `quiz/SubjectExpert/questions?set=${set}&subject=${subject}`
   );
 };

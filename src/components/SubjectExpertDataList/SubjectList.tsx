@@ -27,6 +27,9 @@ const SubjectList = () => {
     //setquizSubjectInfo((quizSubjectInfo) => (quizSubjectInfo.subjectname = "Mark"));
     //setquizSubjectInfo((quizSubjectInfo) => ({...quizSubjectInfo,setnumber : 1}));
     //setquizSubjectInfo((quizSubjectInfo) => Object.assign({}, quizSubjectInfo, { setnumber:e.setNumber }));
+    setModalContent("listView");
+    setOpenTestModal(true);
+    quizSubjectInfo.subjectName=e.subjectName;
     quizSubjectInfo.setNumber=e.setNumber;
     quizSubjectInfo.subjectName=e.subjectName;
     var set=e.setNumber;
@@ -36,7 +39,7 @@ const SubjectList = () => {
     //const value = e.target.value;
     //setquizSubjectInfo({ ...quizSubjectInfo, setnumber: e.target.setNumber })
     //setquizSubjectInfo({ ...quizSubjectInfo, subjectname:e.target.SubjectName })
-      const subjectwiseAnswersDetails = async () => {
+    setquizSubjectInfo({setNumber:e.setNumber,subjectName:e.subjectName})
        getSubjectwiseQuizAnswers(set,subject)
          .then((response) => {
            setSubjectAnswerList(response.data);
@@ -44,13 +47,13 @@ const SubjectList = () => {
            console.log("Subject details"+subjectAnswersList);
         })
         .catch((error: any) => console.log("error in subjwise answersapi"));
-     };
      var data1=subjectAnswersList;
-    var data=quizSubjectInfo;
-    setModalContent("listView");
-    setOpenTestModal(true);
+    // setModalContent("listView");
+    // setOpenTestModal(true);
  
   };
+  console.log("Subject info details",quizSubjectInfo);
+  var data=quizSubjectInfo;
   const endTestButtonHandler = () => {
     setOpenTestModal(false);
   };
